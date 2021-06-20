@@ -3,7 +3,7 @@ session_start();
 
 $name=$_SESSION['$name'];
 
-$con=mysqli_connect("localhost","root1","pass","library")or die("can't connect...");
+include '../connect.php';
 
 
 $name=$_GET["name"];
