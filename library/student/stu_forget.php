@@ -57,23 +57,21 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Admin Login</h5>
-            <form class="form-signin"  action="log.php" method="POST">
+            <h5 class="card-title text-center">Reset Password</h5>
+            <form class="form-signin"  action="#" method="POST">
               <div class="form-label-group">
-                <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
+                <input type="text" name="name" id="name" class="form-control" placeholder="email" required>
               </div>
 
               <div class="form-label-group">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="text" name="id" class="form-control" placeholder="Library ID" required>
               </div>
 
               
-              <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
-
-              
-
+              <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"><br><br>
+             
+             
             </form>
-          
           </div>
         </div>
       </div>

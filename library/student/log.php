@@ -3,7 +3,7 @@
 
 include '../connect.php';
 // $con=mysqli_connect("localhost","root1","pass","library")or die("can't connect...");
-session_start();
+
 $name = $_POST["name"];
 $password = $_POST["password"];
 $result=mysqli_query($con,"select * from admin where name = '$name'");
@@ -11,7 +11,7 @@ $result=mysqli_query($con,"select * from admin where name = '$name'");
 	if($row['password']==$password)
 	{
 		$_SESSION['name']=$name;
- 		header("Location:adminpanel.php");
+ 		header("Location:adminpanel.php?name=$name");
  	}
  	else
  	{

@@ -6,5 +6,6 @@
 	header("Pragma: no-cache"); // HTTP 1.0.
 	header("Expires: 0");
 	
-	header("location:/library/index.php");
+	header("location:../index.php");
+
 ?>

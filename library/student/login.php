@@ -57,7 +57,7 @@
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Admin Login</h5>
+            <h5 class="card-title text-center">Student Login</h5>
             <form class="form-signin"  action="log.php" method="POST">
               <div class="form-label-group">
                 <input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
@@ -68,12 +68,10 @@
               </div>
 
               
-              <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
-
-              
-
+              <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"><br><br>
+             
+              <a href="../student/stu_forget.php" > forget password? </a>
             </form>
-          
           </div>
         </div>
       </div>

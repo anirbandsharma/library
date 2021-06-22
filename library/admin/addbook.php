@@ -1,12 +1,25 @@
-<html>
-    <head>
-        <title>Add new book</title>
-    </head>
+<?php
+session_start();
+if(!$_SESSION['name']){
+    header("LOCATION: login.php");
+}
 
-<body>
-   
+$name = $_SESSION['name'];
+
+
+// $con=mysqli_connect("localhost","root1","pass","library")or die("can't connect...");
+include '../connect.php';
+include 'main.php';
+
+//$name = $_GET["name"];
+
+?>
+
+
+
+
     <h1 style="text-align: center;">Input Form</h1>
-    <form action="addbook1.php" method="POST">
+    <form action="addbook1.php" method="POST" enctype="multipart/form-data">
         <table border="1" width="800" height="500" align="center">
             <tr>
                 <td>ID</td>
@@ -29,7 +42,7 @@
             <tr>
                 <td>Quantity</td>
                 <td>
-                <input type="number" name="quantity" min="1" max="100">
+                    <input type="number" name="quantity" min="1" max="100">
                 </td>
             </tr>
             <tr>
@@ -65,17 +78,28 @@
             <tr>
                 <td>Photo</td>
                 <td>
-                <input type="file" name="photo">
+                    <input type="file" name="file">
                 </td>
             </tr>
-            
-            
+
+
             <tr>
-            <td></td>
-                <td><input type="submit" value="Add"></td>
+                <td></td>
+                <td><input type="submit" value="Add Book" name="submit"></td>
             </tr>
-        </table> 
+        </table>
     </form>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    
+
 </body>
+
 </html>

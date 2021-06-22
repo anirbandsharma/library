@@ -1,7 +1,8 @@
-
 <?php
 
+
 include '../connect.php';
+
 
 $b_id = $_POST["b_id"];
 $b_name = $_POST["b_name"];
@@ -12,6 +13,7 @@ $year = $_POST["year"];
 $category = $_POST["category"];
 $isbn = $_POST["isbn"];
 $language = $_POST["language"];
+
 $file = $_FILES["file"];
 print_r($file);
 
@@ -35,7 +37,7 @@ if (isset($_POST['submit'])) {
 				$filedestination = 'uploads/' . $filenamenew;
 				move_uploaded_file($filetemp, $filedestination);
 
-				$query = "INSERT INTO books VALUES ('$b_id', '$b_name', '$b_description', '$quantity', '$author', '$year', '$category', '$isbn', '$filedestination', '$language') ";
+				$query = "update books set  b_name='$b_name', b_description='$b_description', quantity='$quantity', author='$author', year='$year', category='$category', isbn='$isbn', photo='$filedestination', language='$language' where b_id='$b_id'  ";
 
 				if (mysqli_query($con, $query)) {
 					header("location:viewbook.php");
@@ -53,4 +55,3 @@ if (isset($_POST['submit'])) {
 	}
 }
 ?>
-
