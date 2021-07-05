@@ -23,7 +23,7 @@ $result2 = mysqli_fetch_array($rs2);
 
 
 <div class="row">
-    <div class="col-xl-2 col-md-6">
+    <div class="col">
         <div class="card bg-primary text-white mb-4">
             <div class="card-body">Total Students: <?php echo $result[0]; ?> </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -32,7 +32,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-md-6">
+    <div class="col">
         <div class="card bg-warning text-white mb-4">
             <div class="card-body">Total books: <?php echo $result2[0]; ?></div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -41,7 +41,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-md-6">
+    <div class="col">
         <div class="card bg-success text-white mb-4">
             <div class="card-body">Available books: </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -50,7 +50,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-md-6">
+    <div class="col">
         <div class="card bg-danger text-white mb-4">
             <div class="card-body">Issued books: </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -59,7 +59,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-2 col-md-6">
+    <div class="col">
         <div class="card bg-info text-white mb-4">
             <div class="card-body">Return book: </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
