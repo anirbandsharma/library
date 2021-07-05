@@ -23,7 +23,7 @@ $result2 = mysqli_fetch_array($rs2);
 
 
 <div class="row">
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-2 col-md-6">
         <div class="card bg-primary text-white mb-4">
             <div class="card-body">Total Students: <?php echo $result[0]; ?> </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -32,7 +32,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-2 col-md-6">
         <div class="card bg-warning text-white mb-4">
             <div class="card-body">Total books: <?php echo $result2[0]; ?></div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -41,7 +41,7 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-2 col-md-6">
         <div class="card bg-success text-white mb-4">
             <div class="card-body">Available books: </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
@@ -50,11 +50,20 @@ $result2 = mysqli_fetch_array($rs2);
             </div>
         </div>
     </div>
-    <div class="col-xl-3 col-md-6">
+    <div class="col-xl-2 col-md-6">
         <div class="card bg-danger text-white mb-4">
             <div class="card-body">Issued books: </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <a class="small text-white stretched-link" href="#">View Details</a>
+                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-2 col-md-6">
+        <div class="card bg-info text-white mb-4">
+            <div class="card-body">Return book: </div>
+            <div class="card-footer d-flex align-items-center justify-content-between">
+                <a class="small text-white stretched-link" href="returnBook.php">View Details</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
@@ -65,7 +74,7 @@ $result2 = mysqli_fetch_array($rs2);
 
 <div class="container my-4" id="viewstudent">
 
-    <h1 style="text-align: center;">View Student</h1>
+    <h1 style="text-align: center;">Transaction History</h1>
 </div>
 
 
@@ -73,62 +82,12 @@ $result2 = mysqli_fetch_array($rs2);
     <table class="table" id="myTable">
         <thead class="thead">
             <tr>
-                <td>ID</td>
+                <td>Student ID</td>
                 <td>Name</td>
-                <td>E-mail</td>
-                <td>Phone</td>
-                <td>Address</td>
-                <td>Department</td>
-                <td>Action</td>
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php
-
-            $result = mysqli_query($con, "select * from student");
-            while ($row = mysqli_fetch_array($result)) {
-                echo '
-        <tr>
-            <td>' . $row["s_id"] . '</td>
-            <td>' . $row["s_name"] . '</td>
-            <td>' . $row["s_email"] . '</td>
-            <td>' . $row["s_phone"] . '</td>
-            <td>' . $row["s_address"] . '</td>
-            <td>' . $row["department"] . '</td>
-            <td><button class="btn btn-primary"><a href="editstudent.php?s_id=' . $row["s_id"] . '">EDIT</a></button>
-            <button class="btn btn-danger"><a href="deletestudent.php?s_id=' . $row["s_id"] . '">DELETE</a></button></td>
-        </tr>
-    ';
-            }
-            ?>
-        </tbody>
-
-
-    </table>
-</div>
-
-
-
-<div class="container my-4" id="viewbook">
-
-    <h1 style="text-align: center;">View Book</h1>
-</div>
-
-
-<div class="container my-4">
-    <table class="table" id="myTable2">
-        <thead class="thead">
-            <tr>
-                <td>Photo</td>
-                <td>Name</td>
-                <td>Description</td>
-                <td>quantity</td>
-                <td>Author</td>
-                <td>Year of publication</td>
-                <td>Category</td>
                 <td>ISBN</td>
-                <td>Language</td>
+                <td>Book Name</td>
+                <td>Status</td>
+                <td>Day remaining</td>
                 <td>Action</td>
             </tr>
         </thead>
@@ -136,22 +95,42 @@ $result2 = mysqli_fetch_array($rs2);
         <tbody>
             <?php
 
-            $result = mysqli_query($con, "select * from books");
+            $query = "select student.s_id, s_name, b_name, isbn, status, return_date from student inner join book_issue on student.s_id=book_issue.s_id inner join books on book_issue.b_id=books.isbn order by return_date ASC";
+            $result = mysqli_query($con, $query);
             while ($row = mysqli_fetch_array($result)) {
+                $status = $row["status"];
+                $return_time = strtotime($row["return_date"]);
+                $current_time = strtotime(date("Y-m-d"));
+                $offset = 24*60*60;
+                $remaining = $return_time - $current_time;
+                $remaining_day = floor($remaining/$offset);
+                $r_str = "";
+                $r_status = "";
+                $action = "";
+
+                if($status === "RET")
+                {
+                    $r_str = '<p style="text-align:center; color:white; background-color:green;">CLEAR</p>';
+                    $r_status ='<p style="text-align:center; color:white; background-color:green;">RETURNED</p>';
+                    $action = '<button class="btn btn-dark" disabled="disabled">RETURN</button>';
+                }
+                else{
+                    $r_str = $remaining_day > 0 ? '<p style="text-align:center; color:black; background-color:yellow;">'.$remaining_day. " day remains</p>" : '<p style="text-align:center; color:black; background-color:red;">'.abs($remaining_day)." day penalty</p>";
+                     $r_status ='<p style="text-align:center; color:black; background-color:RED;">ACQUIRED</p>';
+                     $action = '<button class="btn btn-dark"><a style="text-decoration:none;" href="returnBook.php?s_id=' . $row["s_id"] .'&& s_name='. $row["s_name"].'&& b_id='. $row["isbn"].'&& b_name='. $row["b_name"].'" class="action">RETURN</a></button>';
+                    
+                }
+
                 echo '
-        <tr>
-            <td><img src="' . $row['photo'] . '" width="80" height="120"></td>
-            <td>' . $row["b_name"] . '</td>
-            <td>' . $row["b_description"] . '</td>
-            <td>' . $row["quantity"] . '</td>
-            <td>' . $row["author"] . '</td>
-            <td>' . $row["year"] . '</td>
-            <td>' . $row["category"] . '</td>
-            <td>' . $row["isbn"] . '</td>
-            <td>' . $row["language"] . '</td>
-            <td><button class="btn btn-primary"><a href="editbook.php?isbn=' . $row["isbn"] . '">EDIT</a></button>
-                    <button class="btn btn-danger"><a href="deletebook.php?isbn=' . $row["isbn"] . '">DELETE</a></button></td>
-                    </tr>
+                <tr>
+                    <td style="vertical-align:middle;">' . $row["s_id"] . '</td>
+                    <td style="vertical-align:middle;">' . $row["s_name"] . '</td>
+                    <td style="vertical-align:middle;">' . $row["isbn"] . '</td>
+                    <td style="vertical-align:middle;">' . $row["b_name"] . '</td>
+                    <td style="vertical-align:middle;">' . $r_status . '</td>
+                    <td style="vertical-align:middle;">' . $r_str . '</td>
+                    <td>' . $action.'</td>
+                </tr>
     ';
             }
             ?>
@@ -160,6 +139,8 @@ $result2 = mysqli_fetch_array($rs2);
 
     </table>
 </div>
+
+
 
 
 </div>
