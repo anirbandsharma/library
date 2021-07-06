@@ -191,7 +191,7 @@ else if(isset($_POST['search']))
             </tbody>
 			        		</table></div>
 			    		<div class="container my-4">
-			    			<button id="checkall" class="btn btn-primary btn-lg" style="width:100%;">check</button>
+			    			<button id="checkall" class="btn btn-primary btn-lg" style="width:100%;">checkout</button>
 							</div>';
     		}
 
