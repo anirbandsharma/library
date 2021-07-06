@@ -107,9 +107,10 @@ include 'main.php';
     // onkeyup event will occur when the user 
     // release the key and calls the function
     // assigned to this event
-    let disableBook = false;
-    let disableStudent = false;
+    let disableBook = true;
+    let disableStudent = true;
     function GetDetail(str) {
+      document.getElementById("submit").disabled=true;
       if (str.length == 0) {
         document.getElementById("isbn").value = "";
         document.getElementById("name").value = "";
@@ -165,9 +166,11 @@ include 'main.php';
     }
 
     function GetStudent(str) {
+       document.getElementById("submit").disabled=true;
       if (str.length == 0) {
         document.getElementById("s_name").value = "";
         document.getElementById("department").value = "";
+         document.getElementById("issued_book").value = "";
         return;
       } else {
         var xmlhttp = new XMLHttpRequest();
@@ -181,7 +184,7 @@ include 'main.php';
             document.getElementById("s_name").value = myObj["s_name"];
             document.getElementById("department").value = myObj["department"];
             document.getElementById("issued_book").value = myObj["issued_book"];
-            if(myObj["issued_book"] === 5)
+            if(myObj["issued_book"] === 5 || myObj["issued_book"] === -1)
             {
                 disableStudent =true;
             }
