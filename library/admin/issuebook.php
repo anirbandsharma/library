@@ -80,13 +80,18 @@ include 'main.php';
 
 <div class="row">
    <div class="col">
-    Category:
-      <input type="text" name="category" id="category" class="form-control-plaintext readonly" placeholder='Invalid book id' value="" required>
+    Available Quantity:
+      <input type="text" name="quantity" id="quantity" class="form-control-plaintext readonly" placeholder='Invalid Quanity' value="" required>
+    </div>
+
+    <div class="col">
+    Already Issued:
+      <input type="text" name="issued_book" id="issued_book" class="form-control-plaintext readonly" placeholder='Invalid issued_book' value="" required>
     </div>
 </div>
     
 
-    <input class="btn btn-md btn-primary btn-block text-uppercase" name="submit" type="submit"><br><br>
+    <input class="btn btn-md btn-primary btn-block text-uppercase" name="submit" type="submit" id="submit"><br><br>
 
   </form>
 
@@ -106,7 +111,7 @@ include 'main.php';
       if (str.length == 0) {
         document.getElementById("isbn").value = "";
         document.getElementById("name").value = "";
-        document.getElementById("category").value = "";
+        document.getElementById("quantity").value = "";
         return;
       } else {
 
@@ -119,6 +124,7 @@ include 'main.php';
           if (this.readyState == 4 &&
             this.status == 200) {
 
+            console.log(this.responseText);
             // Typical action to be performed
             // when the document is ready
             var myObj = JSON.parse(this.responseText);
@@ -128,12 +134,19 @@ include 'main.php';
             // a variable assign the value 
             // received to isbn input field
 
-            document.getElementById("isbn").value = myObj[0];
+            document.getElementById("name").value = myObj[0];
 
             // Assign the value received to
             // other input field
-            document.getElementById("name").value = myObj[1];
-            document.getElementById("category").value = myObj[2];
+            document.getElementById("isbn").value = myObj[1];
+            document.getElementById("quantity").value = myObj[2];
+            if(myObj[2] == 0)
+            {
+                document.getElementById("submit").disabled=true;
+            }
+            else{
+                document.getElementById("submit").disabled=true;
+            }
           }
         };
 
@@ -156,12 +169,19 @@ include 'main.php';
 
           if (this.readyState == 4 &&
             this.status == 200) {
-
+            console.log(this.responseText);
             var myObj = JSON.parse(this.responseText);
-
-
-            document.getElementById("s_name").value = myObj[0];
-            document.getElementById("department").value = myObj[1];
+            console.log(myObj["s_name"]);
+            document.getElementById("s_name").value = myObj["s_name"];
+            document.getElementById("department").value = myObj["department"];
+            document.getElementById("issued_book").value = myObj["issued_book"];
+            if(myObj["issued_book"] === 5)
+            {
+                document.getElementById("submit").disabled=true;
+            }
+            else{
+                document.getElementById("submit").disabled=false;
+            }
             }
         };
 

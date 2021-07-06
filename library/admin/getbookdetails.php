@@ -6,28 +6,22 @@ $b_id = $_REQUEST['b_id'];
 include '../connect.php';
   
 if ($b_id !== "") {
-      
-    // Get corresponding first name and 
-    // isbn for that b_id    
-    $query = mysqli_query($con, "SELECT isbn FROM book_status WHERE b_id='$b_id'");
-    
 
-    $row = mysqli_fetch_array($query);
-    
-    // Get the isbn
-    $isbn = $row["isbn"];
-    
-
-    $query2 = mysqli_query($con, "SELECT * FROM books WHERE isbn='$isbn'");
-    $row2 = mysqli_fetch_array($query2);
-    $name = $row2["b_name"];
-    $category = $row2["category"];
+    $query = mysqli_query($con, "SELECT * FROM books WHERE isbn='$b_id'");
+    $name="";
+    $quantity= 0;
+    if($row = mysqli_fetch_array($query))
+    {
+        $name = $row["b_name"];
+        $quantity = $row["quantity"];
+    }    
+   
 }
   
 // Store it in a array
-$result = array("$isbn","$name","$category");
+$result = array("$name","$b_id","$quantity");
   
 // Send in JSON encoded form
-$myJSON = json_encode($result);
+$myJSON = json_encode($result,JSON_FORCE_OBJECT);
 echo $myJSON;
 ?>

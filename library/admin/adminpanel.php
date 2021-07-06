@@ -18,6 +18,21 @@ $rs2 = mysqli_query($con, $sql2);
 
 $result = mysqli_fetch_array($rs);
 $result2 = mysqli_fetch_array($rs2);
+
+$sql3 = ("SELECT COUNT(transaction_id) FROM book_issue where status='ACQ'");
+$result3 = mysqli_query($con, $sql3);
+$total_issue_book=mysqli_fetch_array($result3);
+
+$sql4 = ("SELECT sum(quantity) FROM books");
+$result4 = mysqli_query($con, $sql4);
+$available_book = mysqli_fetch_array($result4);
+
+$sql5 = ("SELECT distinct count(b_id) FROM book_issue where status='RET'");
+$result5 = mysqli_query($con, $sql5);
+$total_returned_book = mysqli_fetch_array($result5);
+
+echo mysqli_error($con);
+
 ?>
 
 
@@ -33,7 +48,7 @@ $result2 = mysqli_fetch_array($rs2);
         </div>
     </div>
     <div class="col">
-        <div class="card bg-warning text-white mb-4">
+        <div class="card bg-dark text-white mb-4">
             <div class="card-body">Total books: <?php echo $result2[0]; ?></div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <a class="small text-white stretched-link" href="viewbook.php">View Details</a>
@@ -43,25 +58,25 @@ $result2 = mysqli_fetch_array($rs2);
     </div>
     <div class="col">
         <div class="card bg-success text-white mb-4">
-            <div class="card-body">Available books: </div>
+            <div class="card-body">Available books: <?php echo $available_book[0]; ?></div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="available.php">View Details</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
     <div class="col">
         <div class="card bg-danger text-white mb-4">
-            <div class="card-body">Issued books: </div>
+            <div class="card-body">Issued books: <?php echo $total_issue_book[0]; ?> </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-                <a class="small text-white stretched-link" href="#">View Details</a>
+                <a class="small text-white stretched-link" href="issuebook.php">View Details</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
         </div>
     </div>
     <div class="col">
         <div class="card bg-info text-white mb-4">
-            <div class="card-body">Return book: </div>
+            <div class="card-body">Return book: <?php echo $total_returned_book[0]; ?></div>
             <div class="card-footer d-flex align-items-center justify-content-between">
                 <a class="small text-white stretched-link" href="returnBook.php">View Details</a>
                 <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -82,6 +97,7 @@ $result2 = mysqli_fetch_array($rs2);
     <table class="table" id="myTable">
         <thead class="thead">
             <tr>
+                <td>Transaction ID</td>
                 <td>Student ID</td>
                 <td>Name</td>
                 <td>ISBN</td>
@@ -95,7 +111,7 @@ $result2 = mysqli_fetch_array($rs2);
         <tbody>
             <?php
 
-            $query = "select student.s_id, s_name, b_name, isbn, status, return_date from student inner join book_issue on student.s_id=book_issue.s_id inner join books on book_issue.b_id=books.isbn order by return_date ASC";
+            $query = "select transaction_id, student.s_id, s_name, b_name, isbn, status, return_date from student inner join book_issue on student.s_id=book_issue.s_id inner join books on book_issue.b_id=books.isbn order by return_date ASC";
             $result = mysqli_query($con, $query);
             while ($row = mysqli_fetch_array($result)) {
                 $status = $row["status"];
@@ -117,12 +133,13 @@ $result2 = mysqli_fetch_array($rs2);
                 else{
                     $r_str = $remaining_day > 0 ? '<p style="text-align:center; color:black; background-color:yellow;">'.$remaining_day. " day remains</p>" : '<p style="text-align:center; color:black; background-color:red;">'.abs($remaining_day)." day penalty</p>";
                      $r_status ='<p style="text-align:center; color:black; background-color:RED;">ACQUIRED</p>';
-                     $action = '<button class="btn btn-dark"><a style="text-decoration:none;" href="returnBook.php?s_id=' . $row["s_id"] .'&& s_name='. $row["s_name"].'&& b_id='. $row["isbn"].'&& b_name='. $row["b_name"].'" class="action">RETURN</a></button>';
+                     $action = '<button class="btn btn-dark"><a style="text-decoration:none;" href="returnBook.php?s_id=' . $row["s_id"] .'&& s_name='. $row["s_name"].'&& b_id='. $row["isbn"].'&& b_name='. $row["b_name"].'&& t_id='. $row["transaction_id"].'" class="action">RETURN</a></button>';
                     
                 }
 
                 echo '
                 <tr>
+                    <td style="vertical-align:middle;">' . $row["transaction_id"] . '</td>
                     <td style="vertical-align:middle;">' . $row["s_id"] . '</td>
                     <td style="vertical-align:middle;">' . $row["s_name"] . '</td>
                     <td style="vertical-align:middle;">' . $row["isbn"] . '</td>
