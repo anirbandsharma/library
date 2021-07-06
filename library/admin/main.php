@@ -104,6 +104,7 @@ $(document).ready(function(){
                                     <a class="nav-link" href="addbook.php">Add book</a>
                                     <a class="nav-link" href="viewbook.php">View book</a>
                                     <a class="nav-link" href="issuebook.php">Issue book</a>
+                                    <a class="nav-link" href="returnBook.php">Return book</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
