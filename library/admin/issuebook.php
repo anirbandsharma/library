@@ -91,7 +91,7 @@ include 'main.php';
 </div>
     
 
-    <input class="btn btn-md btn-primary btn-block text-uppercase" name="submit" type="submit" id="submit"><br><br>
+    <input class="btn btn-md btn-primary btn-block text-uppercase" name="submit" type="submit" id="submit" disabled="true"><br><br>
 
   </form>
 
@@ -107,6 +107,8 @@ include 'main.php';
     // onkeyup event will occur when the user 
     // release the key and calls the function
     // assigned to this event
+    let disableBook = false;
+    let disableStudent = false;
     function GetDetail(str) {
       if (str.length == 0) {
         document.getElementById("isbn").value = "";
@@ -142,10 +144,14 @@ include 'main.php';
             document.getElementById("quantity").value = myObj[2];
             if(myObj[2] == 0)
             {
-                document.getElementById("submit").disabled=true;
+                disableBook=true;
             }
             else{
-                document.getElementById("submit").disabled=true;
+                disableBook=false;
+            }
+            if(!disableBook && !disableStudent)
+            {
+              document.getElementById("submit").disabled=false;
             }
           }
         };
@@ -177,10 +183,14 @@ include 'main.php';
             document.getElementById("issued_book").value = myObj["issued_book"];
             if(myObj["issued_book"] === 5)
             {
-                document.getElementById("submit").disabled=true;
+                disableStudent =true;
             }
-            else{
-                document.getElementById("submit").disabled=false;
+            else {
+                disableStudent =false;
+            }
+            if(!disableBook && !disableStudent)
+            {
+              document.getElementById("submit").disabled=false;
             }
             }
         };
