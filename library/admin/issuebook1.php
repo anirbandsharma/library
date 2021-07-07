@@ -16,7 +16,7 @@ echo $return_date;
 
 if (isset($_POST['submit'])) {
 
-	$query = "INSERT INTO book_issue VALUES ('$b_id', '$s_id', '$issue_date', '$return_date' )";
+	$query = "INSERT INTO book_issue VALUES (NULL, '$b_id', '$s_id', '$issue_date', '$return_date', 'ACQ' )";
 
 	if (mysqli_query($con, $query)) {
 		header("location:issuebook.php");
